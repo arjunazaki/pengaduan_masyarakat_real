@@ -1,14 +1,16 @@
-import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:http_parser/http_parser.dart';
 import 'package:pengaduan_masyarakat_real/Api/ApiAmbilUser.dart';
 import 'package:pengaduan_masyarakat_real/Api/ApiLogin.dart';
 import 'package:pengaduan_masyarakat_real/Api/ApiRegister.dart';
-import 'package:http_parser/http_parser.dart';
 import 'ApiInsert.dart';
 
-const baseUrl = "http://127.0.0.1:8000/api/";
+const baseUrl = "http://127.0.0.1:8004/api/";
 
 class Api {
   static Future<ApiLogin> login(Map<String, String> data) async {
@@ -57,12 +59,12 @@ class Api {
       request.files.add(http.MultipartFile.fromBytes('foto', webImage!,
           contentType: MediaType('application', 'octet-stream'),
           filename: 'myImage.png'));
+      request.headers.addAll({'Accept': 'application/json',"Authorization": "Bearer $token"});
       request.fields['isi_laporan'] = data['isi_laporan'];
       request.fields['status'] = 'pending';
 
       var response = await request.send();
       var responsed = await http.Response.fromStream(response);
-      print(responsed);
       final responData = json.decode(responsed.body);
       return ApiInsert.fromJson(responData);
     }

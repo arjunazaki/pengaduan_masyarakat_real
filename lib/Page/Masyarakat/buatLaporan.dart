@@ -56,15 +56,16 @@ class _buatLaporanState extends State<buatLaporan> {
       // 'tanggal_pegaduan': tanggal,
       'isi_laporan': isi,
     };
+    print(isi);
 
-    Api.insertLaporan(data, baseImage, webImage,
-            "7|Cqr9ODZePOP05G1t7ag9GRMXGFJPqYzdnAXN4zaH")
+    Api.insertLaporan(data, baseImage, webImage, pref.getString('token'))
         .then((value) async {
       if (value.message == null) {
         //muncul error
         print("Sesuatu ada yang gagal");
         return;
       }
+      print(value.message!);
       Navigator.pushReplacementNamed(context, "/masyarakat");
     });
   }
@@ -186,6 +187,7 @@ class _buatLaporanState extends State<buatLaporan> {
                         width: lebar * 0.7,
                         height: bodyHeigt * 0.2,
                         child: TextFormField(
+                          controller: _isi,
                           keyboardType: TextInputType.datetime,
                           textAlignVertical: TextAlignVertical.center,
                           maxLines: 6,
