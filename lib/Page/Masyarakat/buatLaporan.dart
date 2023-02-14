@@ -66,6 +66,7 @@ class _buatLaporanState extends State<buatLaporan> {
         return;
       }
       print(value.message!);
+      Navigator.pop(context);
       Navigator.pushReplacementNamed(context, "/masyarakat");
     });
   }
